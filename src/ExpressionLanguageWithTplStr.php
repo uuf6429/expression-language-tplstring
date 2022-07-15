@@ -2,28 +2,27 @@
 
 namespace uuf6429\ExpressionLanguage;
 
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage as SymfonyExpressionLanguage;
-use Symfony\Component\ExpressionLanguage\ParsedExpression;
+use Throwable;
 
-class ExpressionLanguageWithTplStr extends SymfonyExpressionLanguage
-{
-    use TemplateStringTranslatorTrait;
-
-    public function compile($expression, array $names = [])
-    {
-        if (!$expression instanceof ParsedExpression) {
-            $expression = $this->translateTplToEl($expression);
-        }
-
-        return parent::compile($expression, $names);
+$instantiable = static function ($class) {
+    try {
+        new $class();
+        return true;
+    } catch (Throwable $ex) {
+        return false;
     }
+};
 
-    public function evaluate($expression, array $values = [])
+if ($instantiable(Shims\ExpressionLanguageWithTplStrSF6::class)) {
+    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF6
     {
-        if (!$expression instanceof ParsedExpression) {
-            $expression = $this->translateTplToEl($expression);
-        }
-
-        return parent::evaluate($expression, $values);
+    }
+} elseif ($instantiable(Shims\ExpressionLanguageWithTplStrSF5::class)) {
+    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF5
+    {
+    }
+} elseif ($instantiable(Shims\ExpressionLanguageWithTplStrSF4::class)) {
+    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF4
+    {
     }
 }

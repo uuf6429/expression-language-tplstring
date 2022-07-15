@@ -1,17 +1,18 @@
 <!-- TODO WIP -->
 
-# 🚦 State Engine / Machine (PHP)
+# 🪡 Template Strings
+for Symfony Expression Language (4-6)
 
 [![CI](https://github.com/uuf6429/expression-language-tplstring/actions/workflows/ci.yml/badge.svg)](https://github.com/uuf6429/expression-language-tplstring/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/uuf6429/expression-language-tplstring/branch/main/graph/badge.svg)](https://codecov.io/gh/uuf6429/expression-language-tplstring)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%5E7%20%7C%20%5E8-8892BF.svg)](https://php.net/)
-[![License](https://poser.pugx.org/uuf6429/expression-language-tplstring/license)](https://packagist.org/packages/uuf6429/expression-language-tplstring)
+[![License](https://poser.pugx.org/uuf6429/expression-language-tplstring/license)](https://github.com/uuf6429/expression-language-tplstring/blob/main/LICENSE)
 [![Latest Stable Version](https://poser.pugx.org/uuf6429/expression-language-tplstring/version)](https://packagist.org/packages/uuf6429/expression-language-tplstring)
 [![Latest Unstable Version](https://poser.pugx.org/uuf6429/expression-language-tplstring/v/unstable)](https://packagist.org/packages/uuf6429/expression-language-tplstring)
 
 <!-- TODO WIP -->
 
-> **What looks like a dot, a cross and a wave, and does the sae thing?**
+> **What looks like a dot, a cross and a wave, and does the same thing?**
 >
 > It's the concatenation operator, of course!
 >
