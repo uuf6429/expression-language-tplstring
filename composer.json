@@ -1,0 +1,32 @@
+{
+  "name": "uuf6429/expressions-language-tplstring",
+  "type": "library",
+  "homepage": "https://github.com/uuf6429/expressions-language-tplstring",
+  "readme": "README.md",
+  "license": "MIT",
+  "description": "Template String support for Symfony Expression Language",
+  "keywords": ["expression", "language", "dsl", "symfony", "template", "string", "uuf6429"],
+  "authors": [
+    {
+      "name": "Christian Sciberras",
+      "email": "christian@sciberras.me"
+    }
+  ],
+  "require": {
+    "php": "^7 || ^8",
+    "symfony/expression-language": "^4 || ^5 || ^6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6 || ^7 || ^8 || ^9"
+  },
+  "autoload": {
+    "psr-4": {
+      "uuf6429\\ExpressionLanguage\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "uuf6429\\ExpressionLanguage\\": "tests"
+    }
+  }
+}
