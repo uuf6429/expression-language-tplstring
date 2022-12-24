@@ -71,7 +71,7 @@ class ClassBuilder
         return $this;
     }
 
-    public function build()
+    public function createClass()
     {
         list($class, $namespace) = array_map('strrev', explode('\\', strrev($this->child), 2)) + [''];
 
@@ -95,11 +95,13 @@ class ClassBuilder
         }
 
         foreach ($this->overriddenMethods as $method => $body) {
-            $codeLines[] = '';
-            $codeLines[] = $this->extractSignature($this->parent, $method);
-            $codeLines[] = '    {';
-            $codeLines[] = $body;
-            $codeLines[] = '    }';
+            if (($sig = $this->extractSignature($this->parent, $method)) !== null) {
+                $codeLines[] = '';
+                array_push($codeLines, ...$sig);
+                $codeLines[] = '    {';
+                $codeLines[] = "        $body";
+                $codeLines[] = '    }';
+            }
         }
 
         $codeLines[] = '}';
@@ -110,7 +112,7 @@ class ClassBuilder
     /**
      * @param string $class
      * @param string $method
-     * @return string|null
+     * @return string[]|null
      */
     private function extractSignature(string $class, string $method)
     {
@@ -119,8 +121,8 @@ class ClassBuilder
                 (new ReflectionMethod($class, $method))->getFileName()
             );
 
-            return preg_match("/[^}]+function {$method}[^{]+/", $code, $matches)
-                ? $matches[0]
+            return preg_match("/([^}]+function {$method}[^{]+?)\\n\\s+?{/", $code, $matches)
+                ? array_filter(explode("\n", $matches[1]))
                 : null;
         } catch (ReflectionException $ex) {
             return null;
