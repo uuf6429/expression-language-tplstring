@@ -6,6 +6,9 @@ use JetBrains\PhpStorm\Language;
 use ReflectionException;
 use ReflectionMethod;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ClassBuilder
 {
     /**
