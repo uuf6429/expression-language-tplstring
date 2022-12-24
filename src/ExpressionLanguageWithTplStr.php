@@ -2,10 +2,12 @@
 
 namespace uuf6429\ExpressionLanguage;
 
+use Symfony\Component\ExpressionLanguage\Expression as SymfonyExpression;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage as SymfonyExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\ParsedExpression as SymfonyParsedExpression;
 
 ClassBuilder::create()
+    ->import(SymfonyExpression::class)
     ->import(SymfonyParsedExpression::class)
     ->class(ExpressionLanguageWithTplStr::class)
     ->extend(SymfonyExpressionLanguage::class)

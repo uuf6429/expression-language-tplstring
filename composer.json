@@ -5,7 +5,15 @@
   "readme": "README.md",
   "license": "MIT",
   "description": "Template String support for Symfony Expression Language",
-  "keywords": ["expression", "language", "dsl", "symfony", "template", "string", "uuf6429"],
+  "keywords": [
+    "expression",
+    "language",
+    "dsl",
+    "symfony",
+    "template",
+    "string",
+    "uuf6429"
+  ],
   "authors": [
     {
       "name": "Christian Sciberras",
@@ -28,5 +36,8 @@
     "psr-4": {
       "uuf6429\\ExpressionLanguage\\": "tests"
     }
+  },
+  "scripts": {
+    "run-tests": "./vendor/bin/phpunit --coverage-clover coverage.xml"
   }
 }
