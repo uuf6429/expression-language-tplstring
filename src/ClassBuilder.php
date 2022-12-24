@@ -74,8 +74,9 @@ class ClassBuilder
         return $this;
     }
 
-    public function createClass()
+    public function buildClass(): string
     {
+
         list($class, $namespace) = array_map('strrev', explode('\\', strrev($this->child), 2)) + [''];
 
         $codeLines = [
@@ -109,7 +110,12 @@ class ClassBuilder
 
         $codeLines[] = '}';
 
-        eval(implode("\n", $codeLines));
+        return implode("\n", $codeLines);
+    }
+
+    public function createClass()
+    {
+        eval($this->buildClass());
     }
 
     /**
