@@ -1,5 +1,8 @@
 name: CI
 
+env:
+  XDEBUG_MODE: coverage
+
 on:
   push:
     branches:
@@ -13,27 +16,55 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ '7.0', '7.1', '7.2', '7.3', '7.4', '8.0' ]
+        include:
+          - php: '7.0'
+            phpunit: '6'
+            symfony: '3'
+          - php: '7.1'
+            phpunit: '7'
+            symfony: '4'
+          - php: '7.2'
+            phpunit: '8'
+            symfony: '5'
+          - php: '7.3'
+            phpunit: '9'
+            symfony: '5'
+          - php: '7.4'
+            phpunit: '9'
+            symfony: '5'
+          - php: '8.0'
+            phpunit: '9'
+            symfony: '6'
 
     steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: xdebug2
-
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
-      - name: Download dependencies
-        uses: ramsey/composer-install@v1
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
         with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Set up PHP
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php }}
+          version: 2.2
+          php_extensions: xdebug
+          command: require
+          only_args: symfony/expression-language:~${{ matrix.symfony }}
 
       - name: Run tests
-        run: ./vendor/bin/phpunit --coverage-clover coverage.xml
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php }}
+          version: 2.2
+          php_extensions: xdebug
+          command: run-tests
+          only_args: -- --configuration phpunit${{ matrix.phpunit }}.xml.dist
 
       - name: Upload to Codecov
         env:

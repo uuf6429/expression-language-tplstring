@@ -3,4 +3,4 @@ vendor/
 *.cache
 *.iml
 composer.lock
-phpunit.xml
+phpunit*.xml
