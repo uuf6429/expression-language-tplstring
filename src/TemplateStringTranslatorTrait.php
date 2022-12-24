@@ -3,6 +3,7 @@
 namespace uuf6429\ExpressionLanguage;
 
 use SplStack;
+use Symfony\Component\ExpressionLanguage\ParsedExpression;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 trait TemplateStringTranslatorTrait
@@ -85,9 +86,24 @@ trait TemplateStringTranslatorTrait
 
         if ($stateStack->count() !== 1) {
             $reverse = [$IN_DQS => '"', $IN_SQS => "'", $IN_TPL => '`', $IN_EXP = '}'];
-            throw new SyntaxError(sprintf('Expected "%s".', $reverse[$stateStack->top()]), strlen($expression), $expression);
+            throw new SyntaxError(
+                sprintf('Expected "%s".', $reverse[$stateStack->top()]),
+                strlen($expression),
+                $expression
+            );
         }
 
         return $result;
+    }
+
+    /**
+     * @param string|ParsedExpression $expression
+     * @return string|ParsedExpression
+     */
+    private function convertExpression($expression)
+    {
+        return $expression instanceof ParsedExpression
+            ? $expression
+            : $this->translateTplToEl($expression);
     }
 }

@@ -2,27 +2,24 @@
 
 namespace uuf6429\ExpressionLanguage;
 
-use Throwable;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage as SymfonyExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\ParsedExpression as SymfonyParsedExpression;
 
-$instantiable = static function ($class) {
-    try {
-        new $class();
-        return true;
-    } catch (Throwable $ex) {
-        return false;
-    }
-};
-
-if ($instantiable(Shims\ExpressionLanguageWithTplStrSF6::class)) {
-    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF6
-    {
-    }
-} elseif ($instantiable(Shims\ExpressionLanguageWithTplStrSF5::class)) {
-    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF5
-    {
-    }
-} elseif ($instantiable(Shims\ExpressionLanguageWithTplStrSF4::class)) {
-    class ExpressionLanguageWithTplStr extends Shims\ExpressionLanguageWithTplStrSF4
-    {
-    }
-}
+ClassBuilder::create()
+    ->import(SymfonyParsedExpression::class)
+    ->class(ExpressionLanguageWithTplStr::class)
+    ->extend(SymfonyExpressionLanguage::class)
+    ->use(TemplateStringTranslatorTrait::class)
+    ->override('compile', '
+        return parent::compile($this->convertExpression($expression), $names);
+    ')
+    ->override('evaluate', '
+        return parent::evaluate($this->convertExpression($expression), $values);
+    ')
+    ->override('parse', '
+        return parent::parse($this->convertExpression($expression), $names);
+    ')
+    ->override('lint', '
+        parent::lint($this->convertExpression($expression), $names);
+    ')
+    ->build();
